@@ -28,5 +28,6 @@ func _physics_process(_delta):
 func place_tile():
 	# TODO I don't want the player adding tiles to a tile map,
 	# rather have a World manager, have the player call out to it.
-	var tile_coords: Vector2 = minetracks_tilemap.local_to_map(get_global_mouse_position())
-	minetracks_tilemap.set_cell(tile_coords,0,Vector2i(8,6),0)
+	var tile_coords: Vector2i = minetracks_tilemap.local_to_map(get_global_mouse_position())
+	var cells: Array[Vector2i] = [tile_coords]
+	minetracks_tilemap.set_cells_terrain_connect(cells, 0, 0, false)
