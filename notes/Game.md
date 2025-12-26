@@ -16,4 +16,4 @@ Possible Proc-gen can be used to make levels, or a mix of level design and proc 
 
 - Mind The Gap
 - Dungeon Rails
-- Mind Your Manners
+- Mine Your Manners

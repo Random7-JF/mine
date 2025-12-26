@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://ctkkb48d31d2y"]
+
+[ext_resource type="Texture2D" uid="uid://d3mux3jvc1w06" path="res://assets/kenney_tiny-dungeon/Tiles/tile_0097.png" id="1_7uws0"]
+[ext_resource type="Script" uid="uid://cvax7bcpwycrh" path="res://scenes/characters/player/player.gd" id="1_t61fv"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7uws0"]
+radius = 5.0
+height = 18.0
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_t61fv")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_7uws0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1)
+shape = SubResource("CapsuleShape2D_7uws0")

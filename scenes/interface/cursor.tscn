@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://dmn1vuxmahbmc"]
+
+[ext_resource type="Texture2D" uid="uid://oy72xng08w5w" path="res://assets/kenney_tiny-dungeon/Tiles/tile_0060.png" id="1_0fso0"]
+[ext_resource type="Script" uid="uid://dqumgwiud2lhw" path="res://scenes/interface/cursor.gd" id="2_6kpbm"]
+
+[node name="Cursor" type="Node2D"]
+script = ExtResource("2_6kpbm")
+
+[node name="Cursor_Overlay" type="Sprite2D" parent="."]
+position = Vector2(8, 8)
+texture = ExtResource("1_0fso0")
