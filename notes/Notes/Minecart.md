@@ -1,5 +1,9 @@
-- Start position on a rail
-- End position on a rail.
+- Start and end positions on rail tiles
 - Mine cart will move down the rail towards the end rail if connected
 	- otherwise it will move as close as it can towards the end
+- be able to put switches down to stop and start the minecart
+	- if an enemy is close it stops
+- minecarts have a durability
+	- needs to be fixed to move again if damaged below threshold
+	- more damage it has slower it moves.
 - 
