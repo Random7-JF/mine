@@ -7,7 +7,7 @@ class_name Player
 var minetracks_tilemap: TileMapLayer
 
 func _ready() -> void:
-	minetracks_tilemap = get_tree().get_first_node_in_group("minetracks")
+	minetracks_tilemap = get_tree().get_first_node_in_group("minecart_tracks")
 
 func _physics_process(_delta):
 	# TODO just adding controls in to test, need to make a proper input system.

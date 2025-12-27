@@ -4,5 +4,10 @@
 - [x] Remove tracks
 - [x] track inventory
 - [ ] UI  of tracks
+- [ ] Wall Physics
+- [ ] Character with animation
+- [ ] Weapons
+- [ ] Minecart
+- [x] Minecart basic Motion
 
 

@@ -1,0 +1,5 @@
+- Start position on a rail
+- End position on a rail.
+- Mine cart will move down the rail towards the end rail if connected
+	- otherwise it will move as close as it can towards the end
+- 
