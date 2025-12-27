@@ -3,12 +3,12 @@
 A level will have an objective
 Objective examples:
 - Take cart from point A to B
-	- Escort
+	**Escort**
 	- Enemies spawn as you go
 	- Need to find materials to repair sections of rails.
 	- Find and add resources for a bonus
 - Multiple carts from point A to B
-	- Gantlet
+	**Gantlet**
 	- Multiple mine carts spawn, you need to take them all to the same point.
 	- Limited resources means you might have to pull old tracks for another cart
 	- Limited repair as well

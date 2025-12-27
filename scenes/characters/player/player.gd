@@ -2,7 +2,7 @@ extends CharacterBody2D
 class_name Player
 
 @export var walk_speed:int = 150
-@export var tracks: int = 5
+@export var tracks: int = 15
 
 var minetracks_tilemap: TileMapLayer
 

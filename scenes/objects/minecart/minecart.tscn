@@ -210,9 +210,6 @@ _data = {
 
 [node name="minecart" type="CharacterBody2D"]
 script = ExtResource("1_awbqy")
-sprite_up = ExtResource("2_ywg84")
-sprite_left = ExtResource("1_bctqy")
-sprite_diagonal = ExtResource("4_sa310")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_ywg84")
@@ -225,7 +222,9 @@ shape = SubResource("RectangleShape2D_ywg84")
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 path_desired_distance = 1.0
 target_desired_distance = 1.0
+path_max_distance = 500.0
 path_postprocessing = 1
+debug_enabled = true
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource("AnimationNodeStateMachine_mpi0e")

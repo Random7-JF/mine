@@ -1,5 +1,5 @@
 
-## Plan out overall layer design of Tilemap
+## Plan out overall layer design of Tile map
 - World Layers
 	- Main walls and floor
 	- Deco

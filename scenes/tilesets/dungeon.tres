@@ -1,8 +1,15 @@
-[gd_resource type="TileSet" load_steps=8 format=3 uid="uid://bsve5kgfadsk5"]
+[gd_resource type="TileSet" load_steps=11 format=3 uid="uid://bsve5kgfadsk5"]
 
 [ext_resource type="Texture2D" uid="uid://4kgtfopb0cgn" path="res://assets/kenney_tiny-dungeon/Tilemap/tilemap_packed.png" id="1_u7v5j"]
+[ext_resource type="Texture2D" uid="uid://cy52iql7cswhh" path="res://assets/temp/debug.png" id="2_eu4yj"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_u7v5j"]
+vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_bpyg0"]
 vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)])
@@ -87,6 +94,7 @@ texture = ExtResource("1_u7v5j")
 2:4/0 = 0
 3:4/0 = 0
 4:4/0 = 0
+4:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bpyg0")
 5:4/0 = 0
 6:4/0 = 0
 7:4/0 = 0
@@ -223,9 +231,17 @@ texture = ExtResource("1_u7v5j")
 10:10/0 = 0
 11:10/0 = 0
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kmhby"]
+texture = ExtResource("2_eu4yj")
+0:0/0 = 0
+1:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+
 [resource]
 terrain_set_0/mode = 2
 terrain_set_0/terrain_0/name = "Tracks"
 terrain_set_0/terrain_0/color = Color(0.5730097, 0.21237433, 0.5650271, 1)
 navigation_layer_0/layers = 1
 sources/0 = SubResource("TileSetAtlasSource_eu4yj")
+sources/2 = SubResource("TileSetAtlasSource_kmhby")

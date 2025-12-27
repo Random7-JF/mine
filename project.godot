@@ -29,6 +29,7 @@ world_map=""
 minecart_end=""
 minecart_start=""
 minecart_tracks=""
+debug=""
 
 [input]
 
