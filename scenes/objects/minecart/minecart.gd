@@ -15,6 +15,10 @@ var debug_tilemap: TileMapLayer
 var start_pos: Marker2D
 var end_pos: Marker2D
 
+var path: Array[Vector2i] = []
+var path_index: int = 0
+var tracks: Array[Vector2i] = []
+
 func _ready() -> void:
 	track_tilemap = get_tree().get_first_node_in_group("minecart_tracks")
 	debug_tilemap = get_tree().get_first_node_in_group("debug")
@@ -25,7 +29,12 @@ func _ready() -> void:
 	position = track_tilemap.map_to_local(tile_coord)
 
 func _physics_process(_delta: float) -> void:
-	pass
+	if path.size() > 0:
+		var dir = position.direction_to(path[path_index+1]).normalized()
+		print(dir)
+	else:
+		velocity = Vector2.ZERO
+	move_and_slide()
 
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("ui_accept"):
@@ -35,19 +44,11 @@ func _process(_delta: float) -> void:
 			debug_tilemap.set_cell(coord,2,Vector2i(1,0))
 		debug_tilemap.set_cell(path[path.size()-1], 2, Vector2i(0,0))
 
-var path: Array[Vector2i] = []
-var path_index: int = 0
-var tracks: Array[Vector2i] = []
 
 func update_connected_tracks() -> void:
-	var current_pos = track_tilemap.local_to_map(position)
-	
-	if path.is_empty():
-		path.append(current_pos)
-	else:
-		path = []
-		path.append(current_pos)
-		
+	var current_pos = track_tilemap.local_to_map(position)	
+	path = []
+	path.append(current_pos)
 	tracks = track_tilemap.get_used_cells()
 	
 	var scanning: bool = true
@@ -55,9 +56,9 @@ func update_connected_tracks() -> void:
 		var neighbours: Array[Vector2i] = find_neighbour_tracks(current_pos)
 		var possible_path: Array[Vector2i] = []
 		for neighbour in neighbours:
+			## TODO scan neighbours of neighbours here?
 			if not path.has(neighbour):
 				possible_path.append(neighbour)
-		
 		if possible_path.size() > 0:
 			var next_neighbour = find_best_neighbour(possible_path)
 			if next_neighbour == Vector2i.ZERO:
