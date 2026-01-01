@@ -8,7 +8,7 @@ class_name Minecart
 
 @export var speed: int = 25
 
-const directions = [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]
+const DIRECTIONS = [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]
 
 var track_tilemap: TileMapLayer
 var debug_tilemap: TileMapLayer
@@ -29,65 +29,55 @@ func _ready() -> void:
 	position = track_tilemap.map_to_local(tile_coord)
 
 func _physics_process(_delta: float) -> void:
-	if path.size() > 0:
-		var dir = position.direction_to(path[path_index+1]).normalized()
-		print(dir)
-	else:
-		velocity = Vector2.ZERO
-	move_and_slide()
+	pass
 
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("ui_accept"):
 		debug_tilemap.clear()
-		update_connected_tracks()
-		for coord in path:
-			debug_tilemap.set_cell(coord,2,Vector2i(1,0))
-		debug_tilemap.set_cell(path[path.size()-1], 2, Vector2i(0,0))
+		var neighbour_tracks: Array[Vector2i] = find_track_path()
+		for track in neighbour_tracks:
+			debug_tilemap.set_cell(track,2,Vector2i(1,0))
+		#debug_tilemap.set_cell(neighbour_tracks.back(), 2, Vector2i(0,0))
 
 
-func update_connected_tracks() -> void:
-	var current_pos = track_tilemap.local_to_map(position)	
-	path = []
-	path.append(current_pos)
-	tracks = track_tilemap.get_used_cells()
+func find_track_path()-> Array[Vector2i]:
+	var current_tracks: Array[Vector2i] = track_tilemap.get_used_cells()
+	var current_tile = track_tilemap.local_to_map(position)
 	
-	var scanning: bool = true
-	while scanning:
-		var neighbours: Array[Vector2i] = find_neighbour_tracks(current_pos)
-		var possible_path: Array[Vector2i] = []
-		for neighbour in neighbours:
-			## TODO scan neighbours of neighbours here?
-			if not path.has(neighbour):
-				possible_path.append(neighbour)
-		if possible_path.size() > 0:
-			var next_neighbour = find_best_neighbour(possible_path)
-			if next_neighbour == Vector2i.ZERO:
-				print_debug("0,0 best neighbour? how'd we get here.")
-				scanning = false
-			path.append(next_neighbour)
-			current_pos = next_neighbour
-			if current_pos == track_tilemap.local_to_map(end_pos.position):
-				print_debug("we are at the end point")
-				scanning = false
-		else:
-			print_debug("we hit the last farthest track")
-			scanning = false
-	print("Current Path: ", path)
+	var stack: Array[Vector2i]
+	var checked: Array[Vector2i]
+	var path: Array[Vector2i]
+	
+	stack.append(current_tile)
+	checked.append(current_tile)
+	
+	while stack.size() > 0:
+		var tile = stack.pop_back()
+		print("Tile: ", tile)
+		
+		var new_neighbours = find_track_neighbours(tile, current_tracks)
+		var possible_paths: Array[Vector2i]
+		var distance: float = 999
+		var next_step: Vector2i
+		for n in new_neighbours:
+			if not checked.has(n):
+				possible_paths.append(n)
+				checked.append(n)
+				print("Tile possible path added: ", n)
+				for x in possible_paths:
+					if end_pos.position.distance_to(track_tilemap.map_to_local(x)) < distance:
+						next_step = x
+						print("Next step is set to: ", x)
+				print("adding next step: ", next_step)
+				stack.append(next_step)
+				path.append(next_step)
+	print("returning path: ", path)
+	return path
 
-func find_neighbour_tracks(pos: Vector2i) -> Array[Vector2i]:
-	var neighbours: Array[Vector2i] = []
-	for dir in directions:
-		var check_tile: Vector2i = pos + dir
+func find_track_neighbours(tile: Vector2i, tracks: Array[Vector2i]) -> Array[Vector2i]:
+	var neighbour_tracks: Array[Vector2i] = []
+	for dir in DIRECTIONS:
+		var check_tile: Vector2i = tile + dir
 		if tracks.has(check_tile):
-			neighbours.append(check_tile)
-	return neighbours
-
-func find_best_neighbour(neighbours: Array[Vector2i]) -> Vector2i:
-	var best_neighbour: Vector2i = Vector2i.ZERO
-	var distance: float = 9999.9
-	for neighbour in neighbours:
-		var neighbour_distance: float = end_pos.position.distance_to(neighbour)
-		if neighbour_distance < distance:
-			best_neighbour = neighbour
-			distance = neighbour_distance
-	return best_neighbour
+			neighbour_tracks.append(check_tile)
+	return neighbour_tracks
