@@ -16,6 +16,11 @@ var start_pos: Marker2D
 var end_pos: Marker2D
 
 var all_paths: Array = []
+var best_path: Array[Vector2i] = []
+var current_destination: Vector2i = Vector2i.ZERO
+var current_dest_index: int = 0
+
+var movement_tween: Tween
 
 func _ready() -> void:
 	track_tilemap = get_tree().get_first_node_in_group("minecart_tracks")
@@ -26,44 +31,41 @@ func _ready() -> void:
 	var tile_coord = track_tilemap.local_to_map(start_pos.position)
 	position = track_tilemap.map_to_local(tile_coord)
 
-func _physics_process(_delta: float) -> void:
-	pass
-	
-
-
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("ui_accept"):
 		debug_tilemap.clear()
 		var path: Array[Vector2i]
-		path.append(track_tilemap.local_to_map(start_pos.position))
-		create_paths(track_tilemap.local_to_map(start_pos.position), track_tilemap.get_used_cells(), path)
-		var tracks: Array[Vector2i] = find_best_path()
-		print("Best Path: ", tracks)
-		for track in tracks:
-			debug_tilemap.set_cell(track,2,Vector2i(1,0))
-		debug_tilemap.set_cell(tracks.back(), 2, Vector2i(0,0))
+		path.append(track_tilemap.local_to_map(position))
+		create_paths(track_tilemap.local_to_map(position), track_tilemap.get_used_cells(), path)
+		best_path = find_best_path()
+		
+		for tile in best_path:
+			debug_tilemap.set_cell(tile,2,Vector2i(1,0))
+		debug_tilemap.set_cell(best_path.back(), 2, Vector2i(0,0))
+		current_dest_index = 0
+		move_cart()
 
-# Find all neighbours of the current track tile
-	# For each neighbour
-		# create a path
-		# find the neighbours RECURSIVE
-			# pick the best neighbour
-				# add to path
-	# look at all the paths and pick the closest to the end pos.
-
+func move_cart() -> void:
+	current_dest_index += 1
+	if current_dest_index >= best_path.size():
+		print("At end of path")
+		return
+	var target_pos: Vector2 = track_tilemap.map_to_local(best_path[current_dest_index])
+	movement_tween = create_tween()
+	movement_tween.set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
+	movement_tween.tween_property(self,"position",target_pos, 0.5)
+	movement_tween.finished.connect(move_cart)
+	
 func find_best_path() -> Array[Vector2i]:
-	var best_path: Array[Vector2i] = []
+	var new_best_path: Array[Vector2i] = []
 	var distance: int = 2000
-	var count: int = 0
 	for path in all_paths:
 		var current_distance: int = abs(path.back().x - end_pos.position.x)
-		print("Path ", count, ":", path, " | Distance: ", current_distance, " | Current closest Distance: ", distance)
+		#print("Path ", count, ":", path, " | Distance: ", current_distance, " | Current closest Distance: ", distance)
 		if  current_distance <= distance:
 			distance = current_distance
-			best_path = path
-		count +=1
-	return best_path
-	
+			new_best_path = path
+	return new_best_path
 
 func create_paths(tile: Vector2i, tracks: Array[Vector2i], current_path: Array[Vector2i]):
 	var possible_paths = find_neighours(tile, tracks)
