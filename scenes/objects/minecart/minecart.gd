@@ -32,7 +32,7 @@ func _ready() -> void:
 	
 	var tile_coord = track_tilemap.local_to_map(start_pos.position)
 	position = track_tilemap.map_to_local(tile_coord)
-	player.connect("track_changed", track_path)
+	#player.connect("track_changed", track_path)
 
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("ui_accept"):
@@ -49,6 +49,7 @@ func move_cart() -> void:
 	var target_pos: Vector2 = track_tilemap.map_to_local(best_path[current_dest_index])
 	movement_tween = create_tween()
 	movement_tween.set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
+	movement_tween.set_ease(Tween.EASE_IN_OUT)
 	movement_tween.tween_property(self,"position",target_pos, 0.5)
 	movement_tween.finished.connect(move_cart)
 
