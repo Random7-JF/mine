@@ -33,8 +33,9 @@ position = Vector2(-7, -5)
 
 [node name="Objects" type="Node" parent="."]
 
-[node name="minecart" parent="Objects" instance=ExtResource("4_jwygn")]
+[node name="minecart" parent="Objects" node_paths=PackedStringArray("player") instance=ExtResource("4_jwygn")]
 position = Vector2(-169, -43)
+player = NodePath("../../Player")
 
 [node name="Start" type="Marker2D" parent="Objects" groups=["minecart_start"]]
 position = Vector2(24, 107)

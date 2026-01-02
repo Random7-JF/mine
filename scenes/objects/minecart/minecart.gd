@@ -7,6 +7,7 @@ class_name Minecart
 @onready var anim_tree: AnimationTree = $AnimationTree
 
 @export var speed: int = 25
+@export var player: Player
 
 const DIRECTIONS = [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]
 
@@ -21,6 +22,7 @@ var current_destination: Vector2i = Vector2i.ZERO
 var current_dest_index: int = 0
 
 var movement_tween: Tween
+var is_moving: bool = false
 
 func _ready() -> void:
 	track_tilemap = get_tree().get_first_node_in_group("minecart_tracks")
@@ -30,32 +32,39 @@ func _ready() -> void:
 	
 	var tile_coord = track_tilemap.local_to_map(start_pos.position)
 	position = track_tilemap.map_to_local(tile_coord)
+	#player.connect("track_changed", track_path)
 
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("ui_accept"):
-		debug_tilemap.clear()
-		var path: Array[Vector2i]
-		path.append(track_tilemap.local_to_map(position))
-		create_paths(track_tilemap.local_to_map(position), track_tilemap.get_used_cells(), path)
-		best_path = find_best_path()
-		
-		for tile in best_path:
-			debug_tilemap.set_cell(tile,2,Vector2i(1,0))
-		debug_tilemap.set_cell(best_path.back(), 2, Vector2i(0,0))
-		current_dest_index = 0
-		move_cart()
+		track_path()
 
 func move_cart() -> void:
+	# TODO need to add a stop function to stop the cart and leave it on a tile
+	# Possible statemachine for this.
 	current_dest_index += 1
 	if current_dest_index >= best_path.size():
 		print("At end of path")
 		return
+	is_moving = true
 	var target_pos: Vector2 = track_tilemap.map_to_local(best_path[current_dest_index])
 	movement_tween = create_tween()
 	movement_tween.set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
+	movement_tween.set_ease(Tween.EASE_IN_OUT)
 	movement_tween.tween_property(self,"position",target_pos, 0.5)
 	movement_tween.finished.connect(move_cart)
-	
+
+func track_path() -> void:
+	debug_tilemap.clear()
+	var path: Array[Vector2i]
+	path.append(track_tilemap.local_to_map(position))
+	create_paths(track_tilemap.local_to_map(position), track_tilemap.get_used_cells(), path)
+	best_path = find_best_path()
+	for tile in best_path:
+		debug_tilemap.set_cell(tile,2,Vector2i(1,0))
+	debug_tilemap.set_cell(best_path.back(), 2, Vector2i(0,0))
+	current_dest_index = 0
+	move_cart()
+
 func find_best_path() -> Array[Vector2i]:
 	var new_best_path: Array[Vector2i] = []
 	var distance: int = 2000
