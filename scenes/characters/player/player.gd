@@ -4,6 +4,8 @@ class_name Player
 @export var walk_speed:int = 150
 @export var tracks: int = 50
 
+signal track_changed
+
 var minetracks_tilemap: TileMapLayer
 
 func _ready() -> void:
@@ -28,11 +30,12 @@ func _physics_process(_delta):
 		remove_tile()
 	
 	move_and_slide()
-	
+
+
 func place_tile():
+	emit_signal("track_changed")
 	var tile_coords: Vector2i = minetracks_tilemap.local_to_map(get_global_mouse_position())
 	var tile : TileData = minetracks_tilemap.get_cell_tile_data(tile_coords)
-	
 	if not tile and tracks >= 1:
 		# TODO I don't want the player adding tiles to a tile map,
 		# rather have a World manager, have the player call out to it.
@@ -44,6 +47,7 @@ func place_tile():
 		print_debug("No Tracks Left.")
 
 func remove_tile():
+	emit_signal("track_changed")
 	# TODO I don't want the player adding tiles to a tile map,
 	# rather have a World manager, have the player call out to it.
 	var tile_coords: Vector2i = minetracks_tilemap.local_to_map(get_global_mouse_position())
