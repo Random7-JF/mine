@@ -4,12 +4,24 @@ class_name Player
 @export var walk_speed:int = 150
 @export var tracks: int = 50
 
+@onready var weapon: Node2D = $Weapon
+
 signal track_changed
 
 var minetracks_tilemap: TileMapLayer
 
 func _ready() -> void:
 	minetracks_tilemap = get_tree().get_first_node_in_group("minecart_tracks")
+
+func _process(_delta: float) -> void:
+	
+	weapon.rotation = ( get_global_mouse_position() - global_position).angle() + deg_to_rad(90)
+	
+	if Input.is_action_just_pressed("place_tile"):
+		place_tile()
+	if Input.is_action_just_pressed("remove_tile"):
+		remove_tile()
+	
 
 func _physics_process(_delta):
 	# TODO just adding controls in to test, need to make a proper input system.
@@ -23,12 +35,7 @@ func _physics_process(_delta):
 		velocity.y = walk_speed
 	else:
 		velocity = Vector2.ZERO
-	
-	if Input.is_action_just_pressed("place_tile"):
-		place_tile()
-	if Input.is_action_just_pressed("remove_tile"):
-		remove_tile()
-	
+		
 	move_and_slide()
 
 

@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=4 uid="uid://4aplm5spk0ph"]
+[gd_scene load_steps=6 format=4 uid="uid://4aplm5spk0ph"]
 
 [ext_resource type="TileSet" uid="uid://bsve5kgfadsk5" path="res://scenes/tilesets/dungeon.tres" id="1_6e51n"]
 [ext_resource type="PackedScene" uid="uid://ctkkb48d31d2y" path="res://scenes/characters/player/player.tscn" id="2_mnksr"]
 [ext_resource type="PackedScene" uid="uid://dmn1vuxmahbmc" path="res://scenes/interface/cursor.tscn" id="3_sqeqr"]
 [ext_resource type="PackedScene" uid="uid://dd07lrht3edjt" path="res://scenes/objects/minecart/minecart.tscn" id="4_jwygn"]
+[ext_resource type="PackedScene" uid="uid://bqna3836sves4" path="res://ui/hud/action_bar.tscn" id="5_vpaal"]
 
 [node name="World" type="Node2D"]
 
@@ -30,6 +31,7 @@ position = Vector2(152, 129)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 position = Vector2(-7, -5)
+process_callback = 0
 
 [node name="Objects" type="Node" parent="."]
 
@@ -42,3 +44,18 @@ position = Vector2(24, 107)
 
 [node name="End" type="Marker2D" parent="Objects" groups=["minecart_end"]]
 position = Vector2(488, 106)
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="ActionBar" parent="UI" instance=ExtResource("5_vpaal")]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_top = -22.0
+offset_bottom = -22.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 0
+size_flags_vertical = 8
