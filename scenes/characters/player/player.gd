@@ -5,8 +5,17 @@ class_name Player
 @export var tracks: int = 50
 
 @onready var weapon: Node2D = $Weapon
+@onready var cursor: Node2D = $Cursor
 
 signal track_changed
+
+enum PLAYER_MODE {
+	Track,
+	Weapon,
+	Nothing
+}
+var current_mode: PLAYER_MODE = PLAYER_MODE.Track
+
 
 var minetracks_tilemap: TileMapLayer
 
@@ -15,12 +24,28 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	
-	weapon.rotation = ( get_global_mouse_position() - global_position).angle() + deg_to_rad(90)
-	
 	if Input.is_action_just_pressed("place_tile"):
 		place_tile()
 	if Input.is_action_just_pressed("remove_tile"):
 		remove_tile()
+	if Input.is_action_just_pressed("track_mode"):
+		current_mode = PLAYER_MODE.Track
+	if Input.is_action_just_pressed("weapon_mode"):
+		current_mode = PLAYER_MODE.Weapon
+	if Input.is_action_just_pressed("nothing_mode"):
+		current_mode = PLAYER_MODE.Nothing
+	
+	match current_mode:
+		PLAYER_MODE.Track:
+			cursor.visible = true
+			weapon.visible = false
+		PLAYER_MODE.Weapon:
+			weapon.visible = true
+			cursor.visible = false
+			weapon.rotation = ( get_global_mouse_position() - global_position).angle() + deg_to_rad(90)
+		PLAYER_MODE.Nothing:
+			weapon.visible = false
+			cursor.visible = false
 	
 
 func _physics_process(_delta):

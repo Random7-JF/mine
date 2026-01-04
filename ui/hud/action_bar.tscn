@@ -1,12 +1,34 @@
-[gd_scene load_steps=2 format=3 uid="uid://bqna3836sves4"]
+[gd_scene load_steps=11 format=3 uid="uid://bqna3836sves4"]
 
+[ext_resource type="Script" uid="uid://0brewpmja4lj" path="res://ui/hud/action_bar.gd" id="1_j8vnt"]
 [ext_resource type="Texture2D" uid="uid://csta4f1ja1yp3" path="res://assets/kenney_tiny-dungeon/Tiles/tile_0067.png" id="1_r0nyy"]
+[ext_resource type="Texture2D" uid="uid://bxbisrewoh8la" path="res://assets/kenney_tiny-dungeon/Tiles/tile_0106.png" id="2_g0qk1"]
+[ext_resource type="Texture2D" uid="uid://bvosch18j2mgv" path="res://assets/kenney_tiny-dungeon/Tiles/tile_0061.png" id="3_j8vnt"]
+
+[sub_resource type="InputEventAction" id="InputEventAction_j8vnt"]
+action = &"track_mode"
+
+[sub_resource type="Shortcut" id="Shortcut_1rpnw"]
+events = [SubResource("InputEventAction_j8vnt")]
+
+[sub_resource type="InputEventAction" id="InputEventAction_oio4g"]
+action = &"weapon_mode"
+
+[sub_resource type="Shortcut" id="Shortcut_gjk5k"]
+events = [SubResource("InputEventAction_oio4g")]
+
+[sub_resource type="InputEventAction" id="InputEventAction_1rpnw"]
+action = &"nothing_mode"
+
+[sub_resource type="Shortcut" id="Shortcut_oio4g"]
+events = [SubResource("InputEventAction_1rpnw")]
 
 [node name="ActionBar" type="Control"]
 layout_mode = 3
 anchors_preset = 0
 size_flags_horizontal = 4
 size_flags_vertical = 4
+script = ExtResource("1_j8vnt")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 1
@@ -36,49 +58,28 @@ layout_mode = 2
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 
-[node name="VBoxContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/Actions/PanelContainer"]
+[node name="TrackButton" type="Button" parent="PanelContainer/MarginContainer/Actions/PanelContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 2
-theme_override_constants/margin_top = 2
-theme_override_constants/margin_right = 2
-theme_override_constants/margin_bottom = 2
-
-[node name="TextureRect" type="TextureRect" parent="PanelContainer/MarginContainer/Actions/PanelContainer/VBoxContainer"]
-layout_mode = 2
-texture = ExtResource("1_r0nyy")
-expand_mode = 3
-stretch_mode = 5
+shortcut = SubResource("Shortcut_1rpnw")
+icon = ExtResource("1_r0nyy")
+alignment = 0
 
 [node name="PanelContainer2" type="PanelContainer" parent="PanelContainer/MarginContainer/Actions"]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 
-[node name="VBoxContainer2" type="MarginContainer" parent="PanelContainer/MarginContainer/Actions/PanelContainer2"]
+[node name="WeaponButton" type="Button" parent="PanelContainer/MarginContainer/Actions/PanelContainer2"]
 layout_mode = 2
-theme_override_constants/margin_left = 2
-theme_override_constants/margin_top = 2
-theme_override_constants/margin_right = 2
-theme_override_constants/margin_bottom = 2
-
-[node name="TextureRect" type="TextureRect" parent="PanelContainer/MarginContainer/Actions/PanelContainer2/VBoxContainer2"]
-layout_mode = 2
-texture = ExtResource("1_r0nyy")
-expand_mode = 3
-stretch_mode = 5
+shortcut = SubResource("Shortcut_gjk5k")
+icon = ExtResource("2_g0qk1")
+alignment = 0
 
 [node name="PanelContainer3" type="PanelContainer" parent="PanelContainer/MarginContainer/Actions"]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 
-[node name="VBoxContainer3" type="MarginContainer" parent="PanelContainer/MarginContainer/Actions/PanelContainer3"]
+[node name="NothingButton" type="Button" parent="PanelContainer/MarginContainer/Actions/PanelContainer3"]
 layout_mode = 2
-theme_override_constants/margin_left = 2
-theme_override_constants/margin_top = 2
-theme_override_constants/margin_right = 2
-theme_override_constants/margin_bottom = 2
-
-[node name="TextureRect" type="TextureRect" parent="PanelContainer/MarginContainer/Actions/PanelContainer3/VBoxContainer3"]
-layout_mode = 2
-texture = ExtResource("1_r0nyy")
-expand_mode = 3
-stretch_mode = 5
+shortcut = SubResource("Shortcut_oio4g")
+icon = ExtResource("3_j8vnt")
+alignment = 0

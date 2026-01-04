@@ -1,8 +1,7 @@
-[gd_scene load_steps=6 format=4 uid="uid://4aplm5spk0ph"]
+[gd_scene load_steps=5 format=4 uid="uid://4aplm5spk0ph"]
 
 [ext_resource type="TileSet" uid="uid://bsve5kgfadsk5" path="res://scenes/tilesets/dungeon.tres" id="1_6e51n"]
 [ext_resource type="PackedScene" uid="uid://ctkkb48d31d2y" path="res://scenes/characters/player/player.tscn" id="2_mnksr"]
-[ext_resource type="PackedScene" uid="uid://dmn1vuxmahbmc" path="res://scenes/interface/cursor.tscn" id="3_sqeqr"]
 [ext_resource type="PackedScene" uid="uid://dd07lrht3edjt" path="res://scenes/objects/minecart/minecart.tscn" id="4_jwygn"]
 [ext_resource type="PackedScene" uid="uid://bqna3836sves4" path="res://ui/hud/action_bar.tscn" id="5_vpaal"]
 
@@ -22,9 +21,6 @@ tile_set = ExtResource("1_6e51n")
 [node name="Loot" type="TileMapLayer" parent="Map"]
 tile_map_data = PackedByteArray("AAANAAQAAAAFAAcAAAAKABEAAAAFAAcAAAAfAAQAAAAFAAcAAAA=")
 tile_set = ExtResource("1_6e51n")
-
-[node name="Cursor" parent="." instance=ExtResource("3_sqeqr")]
-position = Vector2(128, 124)
 
 [node name="Player" parent="." instance=ExtResource("2_mnksr")]
 position = Vector2(152, 129)
@@ -53,8 +49,8 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_top = -22.0
-offset_bottom = -22.0
+offset_top = -13.0
+offset_bottom = -13.0
 grow_horizontal = 2
 grow_vertical = 0
 size_flags_horizontal = 0

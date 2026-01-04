@@ -15,8 +15,3 @@ func _process(_delta: float) -> void:
 	var tile: Vector2 = tilemap.map_to_local(tile_coords)
 	
 	sprite.global_position = tile
-
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("place_tile"):
-		var tile_coords: Vector2 = tilemap.local_to_map(get_global_mouse_position())
-		print(tile_coords)
