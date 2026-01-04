@@ -30,6 +30,7 @@ minecart_end=""
 minecart_start=""
 minecart_tracks=""
 debug=""
+player=""
 
 [input]
 

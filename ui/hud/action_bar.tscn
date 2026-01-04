@@ -83,3 +83,7 @@ layout_mode = 2
 shortcut = SubResource("Shortcut_oio4g")
 icon = ExtResource("3_j8vnt")
 alignment = 0
+
+[connection signal="pressed" from="PanelContainer/MarginContainer/Actions/PanelContainer/TrackButton" to="." method="_on_track_button_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/Actions/PanelContainer2/WeaponButton" to="." method="_on_weapon_button_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/Actions/PanelContainer3/NothingButton" to="." method="_on_nothing_button_pressed"]
