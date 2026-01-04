@@ -15,26 +15,12 @@ enum PLAYER_MODE {
 	Nothing
 }
 var current_mode: PLAYER_MODE = PLAYER_MODE.Track
-
-
 var minetracks_tilemap: TileMapLayer
 
 func _ready() -> void:
 	minetracks_tilemap = get_tree().get_first_node_in_group("minecart_tracks")
 
 func _process(_delta: float) -> void:
-	
-	if Input.is_action_just_pressed("place_tile"):
-		place_tile()
-	if Input.is_action_just_pressed("remove_tile"):
-		remove_tile()
-	if Input.is_action_just_pressed("track_mode"):
-		current_mode = PLAYER_MODE.Track
-	if Input.is_action_just_pressed("weapon_mode"):
-		current_mode = PLAYER_MODE.Weapon
-	if Input.is_action_just_pressed("nothing_mode"):
-		current_mode = PLAYER_MODE.Nothing
-	
 	match current_mode:
 		PLAYER_MODE.Track:
 			cursor.visible = true
@@ -46,7 +32,6 @@ func _process(_delta: float) -> void:
 		PLAYER_MODE.Nothing:
 			weapon.visible = false
 			cursor.visible = false
-	
 
 func _physics_process(_delta):
 	# TODO just adding controls in to test, need to make a proper input system.
@@ -63,6 +48,17 @@ func _physics_process(_delta):
 		
 	move_and_slide()
 
+func _unhandled_input(_event: InputEvent) -> void:
+	if Input.is_action_just_pressed("place_tile"):
+		place_tile()
+	if Input.is_action_just_pressed("remove_tile"):
+		remove_tile()
+	if Input.is_action_just_pressed("track_mode"):
+		current_mode = PLAYER_MODE.Track
+	if Input.is_action_just_pressed("weapon_mode"):
+		current_mode = PLAYER_MODE.Weapon
+	if Input.is_action_just_pressed("nothing_mode"):
+		current_mode = PLAYER_MODE.Nothing
 
 func place_tile():
 	emit_signal("track_changed")

@@ -15,13 +15,18 @@ func _ready() -> void:
 func _on_track_button_pressed() -> void:
 	if player:
 		player.current_mode = Player.PLAYER_MODE.Track
+	else:
+		print_debug("No Player Found.")
 
 
 func _on_weapon_button_pressed() -> void:
 	if player:
 		player.current_mode = Player.PLAYER_MODE.Weapon
-
+	else:
+		print_debug("No Player Found.")
 
 func _on_nothing_button_pressed() -> void:
 	if player:
 		player.current_mode = Player.PLAYER_MODE.Nothing
+	else:
+		print_debug("No Player Found.")
