@@ -8,13 +8,15 @@ class_name Player
 @onready var cursor: Node2D = $Cursor
 
 signal track_changed
+signal update_mode(mode: PLAYER_MODE)
 
 enum PLAYER_MODE {
 	Track,
 	Weapon,
+	Interact,
 	Nothing
 }
-var current_mode: PLAYER_MODE = PLAYER_MODE.Track
+var current_mode: PLAYER_MODE = PLAYER_MODE.Nothing
 var minetracks_tilemap: TileMapLayer
 
 func _ready() -> void:
@@ -35,6 +37,7 @@ func _process(_delta: float) -> void:
 
 func _physics_process(_delta):
 	# TODO just adding controls in to test, need to make a proper input system.
+	# TODO create a better feeling movement system with some smoothing in it.
 	if Input.is_action_pressed("move_left"):
 		velocity.x = -walk_speed
 	elif Input.is_action_pressed("move_right"):
@@ -45,23 +48,26 @@ func _physics_process(_delta):
 		velocity.y = walk_speed
 	else:
 		velocity = Vector2.ZERO
-		
 	move_and_slide()
 
 func _unhandled_input(_event: InputEvent) -> void:
-	if Input.is_action_just_pressed("place_tile"):
-		place_tile()
-	if Input.is_action_just_pressed("remove_tile"):
-		remove_tile()
+	if current_mode == PLAYER_MODE.Track:
+		if Input.is_action_just_pressed("place_tile"):
+			place_tile()
+		if Input.is_action_just_pressed("remove_tile"):
+			remove_tile()
 	if Input.is_action_just_pressed("track_mode"):
 		current_mode = PLAYER_MODE.Track
+		update_mode.emit(PLAYER_MODE.Track)
 	if Input.is_action_just_pressed("weapon_mode"):
 		current_mode = PLAYER_MODE.Weapon
+		update_mode.emit(PLAYER_MODE.Weapon)
 	if Input.is_action_just_pressed("nothing_mode"):
 		current_mode = PLAYER_MODE.Nothing
+		update_mode.emit(PLAYER_MODE.Nothing)
 
 func place_tile():
-	emit_signal("track_changed")
+	track_changed.emit()
 	var tile_coords: Vector2i = minetracks_tilemap.local_to_map(get_global_mouse_position())
 	var tile : TileData = minetracks_tilemap.get_cell_tile_data(tile_coords)
 	if not tile and tracks >= 1:
@@ -75,7 +81,7 @@ func place_tile():
 		print_debug("No Tracks Left.")
 
 func remove_tile():
-	emit_signal("track_changed")
+	track_changed.emit()
 	# TODO I don't want the player adding tiles to a tile map,
 	# rather have a World manager, have the player call out to it.
 	var tile_coords: Vector2i = minetracks_tilemap.local_to_map(get_global_mouse_position())

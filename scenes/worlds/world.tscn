@@ -27,22 +27,21 @@ tile_set = ExtResource("1_6e51n")
 tile_set = ExtResource("1_6e51n")
 
 [node name="Player" parent="." instance=ExtResource("2_mnksr")]
-position = Vector2(152, 129)
+position = Vector2(320, 197)
 
 [node name="Camera" parent="Player" instance=ExtResource("3_0qnlt")]
-position = Vector2(-7, -5)
+zoom = Vector2(1.4, 1.4)
 
 [node name="Objects" type="Node2D" parent="."]
 
+[node name="Start" type="Marker2D" parent="Objects" groups=["minecart_start"]]
+position = Vector2(72, 118)
+
+[node name="End" type="Marker2D" parent="Objects" groups=["minecart_end"]]
+position = Vector2(536, 105)
+
 [node name="minecart" parent="Objects" node_paths=PackedStringArray("player") instance=ExtResource("4_jwygn")]
-position = Vector2(-169, -43)
 player = NodePath("../../Player")
-
-[node name="Start" type="Marker2D" parent="Objects/minecart" groups=["minecart_start"]]
-position = Vector2(241, 150)
-
-[node name="End" type="Marker2D" parent="Objects/minecart" groups=["minecart_end"]]
-position = Vector2(705, 149)
 
 [node name="UI" type="CanvasLayer" parent="."]
 

@@ -7,8 +7,8 @@
 - [x] Minecart basic Motion
 - [x] Make Test Level
 - [x] Minecart AI
-- [ ]  UI for tracks
-- [ ] Wall Physics
+- [x]  UI for tracks
+- [x] Wall Physics
 - [ ] Character with animation
 - [ ] Weapons
 
