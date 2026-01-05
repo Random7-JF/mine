@@ -8,7 +8,7 @@ class_name Player
 @onready var cursor: Node2D = $Cursor
 
 signal track_changed
-signal update_mode(mode: PLAYER_MODE)
+signal update_mode
 
 enum PLAYER_MODE {
 	Track,
@@ -58,13 +58,13 @@ func _unhandled_input(_event: InputEvent) -> void:
 			remove_tile()
 	if Input.is_action_just_pressed("track_mode"):
 		current_mode = PLAYER_MODE.Track
-		update_mode.emit(PLAYER_MODE.Track)
+		update_mode.emit()
 	if Input.is_action_just_pressed("weapon_mode"):
 		current_mode = PLAYER_MODE.Weapon
-		update_mode.emit(PLAYER_MODE.Weapon)
+		update_mode.emit()
 	if Input.is_action_just_pressed("nothing_mode"):
 		current_mode = PLAYER_MODE.Nothing
-		update_mode.emit(PLAYER_MODE.Nothing)
+		update_mode.emit()
 
 func place_tile():
 	track_changed.emit()
