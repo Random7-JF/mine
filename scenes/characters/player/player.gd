@@ -24,6 +24,7 @@ var isRunning: bool = false
 var last_direction: Vector2
 
 func _ready() -> void:
+	animation_tree.active = true
 	minetracks_tilemap = get_tree().get_first_node_in_group("minecart_tracks")
 
 func _process(_delta: float) -> void:
@@ -34,7 +35,7 @@ func _process(_delta: float) -> void:
 		PLAYER_MODE.Weapon:
 			weapon.visible = true
 			cursor.visible = false
-			weapon.rotation = ( get_global_mouse_position() - global_position).angle() + deg_to_rad(90)
+			weapon.rotation = (get_global_mouse_position() - global_position).angle() + deg_to_rad(90)
 		PLAYER_MODE.Nothing:
 			weapon.visible = false
 			cursor.visible = false
@@ -57,7 +58,6 @@ func _physics_process(_delta):
 	#Animation
 	if velocity != Vector2.ZERO:
 		last_direction = velocity.normalized()
-		print("last dir:", last_direction)
 	isRunning = velocity != Vector2.ZERO
 	animation_tree.set("parameters/idle/blend_position", last_direction.x)
 	animation_tree.set("parameters/run/blend_position", last_direction.x)
