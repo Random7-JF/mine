@@ -4,6 +4,7 @@ class_name Player
 @export var walk_speed:int = 150
 @export var tracks: int = 50
 
+@onready var animation_tree: AnimationTree = $AnimationTree
 @onready var weapon: Node2D = $Weapon
 @onready var cursor: Node2D = $Cursor
 
@@ -18,6 +19,9 @@ enum PLAYER_MODE {
 }
 var current_mode: PLAYER_MODE = PLAYER_MODE.Nothing
 var minetracks_tilemap: TileMapLayer
+
+var isRunning: bool = false
+var last_direction: Vector2
 
 func _ready() -> void:
 	minetracks_tilemap = get_tree().get_first_node_in_group("minecart_tracks")
@@ -49,6 +53,14 @@ func _physics_process(_delta):
 	else:
 		velocity = Vector2.ZERO
 	move_and_slide()
+	
+	#Animation
+	if velocity != Vector2.ZERO:
+		last_direction = velocity.normalized()
+		print("last dir:", last_direction)
+	isRunning = velocity != Vector2.ZERO
+	animation_tree.set("parameters/idle/blend_position", last_direction.x)
+	animation_tree.set("parameters/run/blend_position", last_direction.x)
 
 func _unhandled_input(_event: InputEvent) -> void:
 	if current_mode == PLAYER_MODE.Track:
